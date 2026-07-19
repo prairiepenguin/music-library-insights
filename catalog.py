@@ -254,6 +254,19 @@ def git_publish() -> str:
     return "Catalog committed and pushed" if changed else "Catalog unchanged; Git push checked"
 
 
+def git_publish_changes(message: str) -> str:
+    """Commit and push existing project changes without scanning or exporting."""
+    if not (ROOT / ".git").exists():
+        raise RuntimeError("This app is not connected to a Git repository")
+    subprocess.run(["git", "add", "--all"], cwd=ROOT, check=True)
+    changed = subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=ROOT).returncode != 0
+    if not changed:
+        return "No unpublished changes"
+    subprocess.run(["git", "commit", "-m", message], cwd=ROOT, check=True)
+    subprocess.run(["git", "push", "origin", "HEAD"], cwd=ROOT, check=True)
+    return "Changes committed and pushed to GitHub"
+
+
 def _artist_snapshot(db: sqlite3.Connection) -> dict[str, dict]:
     return {row["name"]: dict(row) for row in db.execute(
         "SELECT name,album_count,track_count,last_mtime FROM artists"

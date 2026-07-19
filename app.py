@@ -84,6 +84,17 @@ with st.sidebar:
     else:
         st.info("Hosted read-only catalog")
         st.caption("Run updates on Toothless, then push the refreshed catalog.")
+    st.divider()
+    st.subheader("GitHub")
+    push_message=st.text_input("Commit message",value="Update music library insights")
+    if st.button("Push changes only",width="stretch",help="Commit and push current project changes without scanning the music library."):
+        try:
+            with st.spinner("Publishing current changes…"):
+                result=catalog.git_publish_changes(push_message.strip() or "Update music library insights")
+            st.success(result)
+        except Exception as error:
+            st.error(f"GitHub push failed: {error}")
+    st.caption("Does not scan, refresh MusicBrainz, or rebuild the catalog.")
     if latest: st.caption(f"Last catalog update: {latest['scanned_at'][:10]}")
 
 if not latest:
