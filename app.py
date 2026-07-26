@@ -57,7 +57,15 @@ st.markdown("""<style>
 .album-placeholder{display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.3);font-size:3.4rem}
 .album-copy{padding:.75rem .8rem .85rem;min-height:6.4rem}.album-title{font-weight:720;line-height:1.22;min-height:2.45rem}.album-meta{display:flex;align-items:center;justify-content:space-between;margin-top:.55rem;color:rgba(255,255,255,.58);font-size:.82rem}
 .album-badge{padding:.16rem .48rem;border-radius:999px;font-size:.7rem;font-weight:750;letter-spacing:.02em}.album-badge.owned{color:#77e2ac;background:rgba(41,171,104,.16)}.album-badge.missing{color:#ffbd86;background:rgba(226,118,43,.16)}
-@media(max-width:700px){.hero h1{font-size:1.9rem}.block-container{padding-top:1rem}}
+@media(max-width:700px){
+  .hero h1{font-size:1.9rem}.block-container{padding-top:1rem}
+  .album-card{display:flex;align-items:stretch;margin-bottom:.55rem}
+  .album-card img,.album-placeholder{flex:0 0 96px;width:96px;height:96px;aspect-ratio:auto}
+  .album-placeholder{font-size:2rem}
+  .album-copy{display:flex;flex:1;min-width:0;min-height:96px;padding:.65rem .75rem;flex-direction:column;justify-content:center}
+  .album-title{min-height:0;font-size:.92rem}
+  .album-meta{margin-top:.4rem}
+}
 </style>""",unsafe_allow_html=True)
 st.markdown('<div class="hero"><h1>Music Library Insights</h1><p>Know what you own. See what is missing. Watch the collection grow.</p></div>',unsafe_allow_html=True)
 data,live=load_data(); latest=data.get("latest")
